@@ -1,0 +1,8 @@
+this directory demonstrate the usage of module export /import 
+
+* the demo of node style module system: like : exports.some = ...
+	node src/export/index.js 
+
+* the demo of ES6 style module system,like : import {some} from 'some'
+	babel-node src/export/index.es6.js
+

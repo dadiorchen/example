@@ -1,4 +1,17 @@
-this project is to demonstrate all kinds of code:
-the index:
+[readme] this project is to demonstrate all kinds of code:
 
-src/export.js		demonstrate the js export grammar 
+* src/export.js		demonstrate the js export grammar 
+
+* about the babel:
+	this project installed babel for ES6 support ,for the export syntax
+	how to add babel support to node/NPM environment?
+		* install the present for ES6 :
+			npm install --save-dev babel-preset-es2015
+		* add .babelrc file to the project root,with the content:
+			{
+				"presets": ["es2015"]
+			}
+		* ensure the babel-node and node is installed 
+		* then , execute the js with ES6 syntax directly:
+			babel-node src/export/index.es6.js 
+		
