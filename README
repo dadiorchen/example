@@ -14,4 +14,16 @@
 		* ensure the babel-node and node is installed 
 		* then , execute the js with ES6 syntax directly:
 			babel-node src/export/index.es6.js 
-		
+
+* jest 
+	added jest for test
+	how to:
+		* install jest:
+			npm install --save-dev jest
+		* add script: 
+			package.json -> script :
+			'test' : 'jest'
+		* run test:
+			npm test 
+			npm test -- --watch  // auto re-run
+
