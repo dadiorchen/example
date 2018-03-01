@@ -27,3 +27,4 @@
 			npm test 
 			npm test -- --watch  // auto re-run
 
+//TODO BACK : the export statement https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export

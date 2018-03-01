@@ -1,5 +1,6 @@
 
 test('if: test if statement',done => {
+	//{{{
 	let x = 1
 	/* demo : basic if condition */
 	if( x === 1){
@@ -20,16 +21,20 @@ test('if: test if statement',done => {
 		//go here , because x = y return 0
 	}
 	done()
+	//}}}
 })
 
 /* TODO */
 test('async: test async function',() => {
+	//{{{
 	console.warn('TODO')
+	//}}}
 })
 
 
 /* block */
-test('block: test block and varaible',done => {
+test('block: test block and variable',done => {
+	//{{{
 	/* var go through the block, var variable do not have block scope */
 	var x = 1
 	if(true){
@@ -61,5 +66,29 @@ test('block: test block and varaible',done => {
 	}).toThrow()
 
 	done()
+	//}}}
 })
+
+
+test('const: const variable ',done =>{
+	//{{{
+	/* declare more then one const at a time */
+	const a = 7,
+		b = 8
+	console.log('const : a = %s , b = %s',a,b)
+	done()
+	//}}}
+})
+
+test('do-while: loop ',done => {
+	//{{{
+	//limit loop time to 5
+	let i = 0
+	do{
+		console.log('loop in time:%d',i)
+	}while(++i < 5)
+	done()
+	//}}}
+})
+
 
