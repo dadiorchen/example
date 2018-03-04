@@ -76,17 +76,57 @@ export class JSRobot extends React.Component<Props,{
 		.then(() => {
 			/* simulate click one of a array */
 			jQuery('.li-item:nth-child(2)').trigger('click')
+			return sleep(1000)
 		})
+		.then(() => {
+			/* simulate mouse enter :NOTE : the jquery trigger do no work, I think its because chrome disable operation like is , so , cancel this approach , just call the handle directly */
+			console.log('try to simulate mouse enter')
+			jQuery('#buttonOK').trigger('mouseover')
+			jQuery('#buttonOK').trigger('mouseenter')
+			return sleep(1000)
+		})
+		.then(() => {
+			/* simulate mouse enter & leave*/
+			console.log('try to simulate mouse enter, directly call the handle')
+			this.handleMouseEnter({target:document.querySelector('#buttonOK')})
+			return sleep(1000)
+		})
+		.then(() => {
+			/* leave */
+			this.handleMouseLeave()
+			return sleep(1000)
+		})
+		
 			
 		//}}}
 	}
+
+	handleMouseEnter = (e) => {
+		console.log('mouse entered ')
+		const element = e.target
+		const rect = element.getBoundingClientRect()
+		const tipLeft = rect.left
+		const tipTop = rect.top + rect.height
+		console.log('the tip top:%d , left:%d',tipTop,tipLeft)
+		this.setState({isTipShown:true,tipTop:rect.top + rect.height,tipLeft:rect.left})
+	}
+
+	handleMouseLeave = (e) => {
+		console.log('mouse left')
+		this.setState({isTipShown:false})
+	}
+
 	/********************** component method *******/
 	render(){
 		return(
 			<div>
+				<h1>A JS ROBOT EXAMPLE</h1>
+				button:
 				<button
 					id='buttonOK'
 					onClick={() => console.log('click the OK')}
+					onMouseEnter={this.handleMouseEnter}
+					onMouseLeave={this.handleMouseLeave}
 				>OK</button>
 				<input 
 					type='text'
@@ -97,11 +137,28 @@ export class JSRobot extends React.Component<Props,{
 				/>
 				<ul className='items' >
 					{Array.from(new Array(4)).map((e,i) => 
-						<li className='li-item' 
+						<li 
+							key={i}
+							className='li-item' 
 							onClick={() => console.log('item %d was clicked',i+1)}
 						><div>item {i+1} </div></li>
 					)}
 				</ul>
+				{this.state.isTipShown && 
+					<div
+						style={{
+							position : 'absolute',
+							background : 'black',
+							color : 'white',
+							borderRadius : 4,
+							width : 100,
+							left : this.state.tipLeft,
+							top : this.state.tipTop,
+						}}
+					>
+						THIS IS A TIP
+					</div>
+				}
 					
 			</div>
 		)
