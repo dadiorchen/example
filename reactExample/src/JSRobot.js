@@ -10,10 +10,12 @@ type Props = {
 }
 export class JSRobot extends React.Component<Props,{
 	//state
+	inputText : string,
 }>{
 	constructor( props : Props){
 		super(props);
 		this.state = {
+			inputText : ''
 		}
 	}
 	/********************** properties ************/
@@ -32,7 +34,7 @@ export class JSRobot extends React.Component<Props,{
 			return sleep(1000)
 		})
 		.then(() => {
-			console.log('focos the input')
+			console.log('focus the input')
 			jQuery('#input').trigger('select')
 			return sleep(1000)
 		})
@@ -47,6 +49,33 @@ export class JSRobot extends React.Component<Props,{
 					charCode: 65,
 				} );
 			//This code will fail
+			return sleep(1000)
+		})
+		.then(() => {
+			/* simulate input text */
+			console.log('input text')
+			this.setState({inputText:this.state.inputText + 'a'})	
+			return sleep(300)
+		})
+		.then(() => {
+			this.setState({inputText:this.state.inputText + 'b'})	
+			return sleep(300)
+		})
+		.then(() => {
+			this.setState({inputText:this.state.inputText + 'c'})	
+			return sleep(300)
+		})
+		.then(() => {
+			this.setState({inputText:this.state.inputText + 'd'})	
+			return sleep(300)
+		})
+		.then(() => {
+			this.setState({inputText:this.state.inputText + 'e'})	
+			return sleep(300)
+		})
+		.then(() => {
+			/* simulate click one of a array */
+			jQuery('.li-item:nth-child(2)').trigger('click')
 		})
 			
 		//}}}
@@ -63,7 +92,16 @@ export class JSRobot extends React.Component<Props,{
 					type='text'
 					id='input'
 					onKeyPress={(e) => console.log('keydown!',e)}
+					value={this.state.inputText}
+					onChange={(e) => this.setState({inputText:e.target.value})}
 				/>
+				<ul className='items' >
+					{Array.from(new Array(4)).map((e,i) => 
+						<li className='li-item' 
+							onClick={() => console.log('item %d was clicked',i+1)}
+						><div>item {i+1} </div></li>
+					)}
+				</ul>
 					
 			</div>
 		)
