@@ -224,3 +224,78 @@ test('switch',() => {
 	//}}}
 })
 
+
+test('throw',done => {
+	//{{{
+	/* define a error class */
+	function MyException(){
+		const code = 12
+	}
+	function doSomething(a){
+		if(a === 0){
+			/* throw a string */
+			throw 'a can not be 0'
+		}
+		if(a === 1){
+			throw 'a can not be 1'
+		}
+		if(a === 2){
+			/* throw a error object */
+			throw new MyException()
+		}
+		if(a === 3){
+			/* throw a number*/
+			throw 3
+		}
+		console.log('do some thing is correctly run')
+		return true
+	}
+
+	expect(doSomething(9)).toBe(true)
+	expect(() => doSomething(0)).toThrow()
+	expect(() => doSomething(1)).toThrow('a can not be 1')
+	expect(() => doSomething(2)).toThrow(MyException)
+	expect(() => doSomething(3)).toThrow('3')
+	try{
+		doSomething(2)
+	}catch(e){
+		/* catch thrown error by instanceof */
+		if(e instanceof MyException){
+			done()
+		}else{
+			done.fail()
+		}
+	}
+	//}}}
+})
+
+test('try-catch',done => {
+	//{{{
+	try{
+		throw 1
+	}catch(e){
+		console.log('thrown a %s',e)
+	}finally{
+		console.log('always execute this')
+	}
+	function doSomething(){
+		/* use catch-finally to output the log always */
+		const info = ['doSomething:']
+		try{
+			info.push('begin...')
+			if(true){
+				info.push('way 1...')
+				return false
+			}else{
+			}
+			info.push('step 2...')
+			return true
+		}finally{
+			console.log(...info)
+		}
+	}
+	const result = doSomething()
+	console.log('resule of doSomething:',result)
+	done()
+	//}}}
+})
