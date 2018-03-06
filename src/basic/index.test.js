@@ -247,6 +247,10 @@ test('throw',done => {
 			/* throw a number*/
 			throw 3
 		}
+		if(a === 4){
+			/* throw boolean */
+			throw false
+		}
 		console.log('do some thing is correctly run')
 		return true
 	}
@@ -256,6 +260,7 @@ test('throw',done => {
 	expect(() => doSomething(1)).toThrow('a can not be 1')
 	expect(() => doSomething(2)).toThrow(MyException)
 	expect(() => doSomething(3)).toThrow('3')
+	expect(() => doSomething(4)).toThrow()
 	try{
 		doSomething(2)
 	}catch(e){
@@ -297,5 +302,27 @@ test('try-catch',done => {
 	const result = doSomething()
 	console.log('resule of doSomething:',result)
 	done()
+	//}}}
+})
+
+var z = 100
+test('var',done => {
+	//{{{
+	var a
+	console.log('a:',a)
+	a = 1
+	console.log('a:',a)
+
+	function f(){
+		var y = 2
+		console.log('y:',y)
+	}
+	f()
+	/* y var scope is in function scope */
+	expect(() => {
+		console.log('y:',y)
+	}).toThrow()
+	/* var z scope is in file scope */
+	console.log('z:',z)
 	//}}}
 })
