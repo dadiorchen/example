@@ -1,0 +1,7 @@
+{
+  "title": "欢迎来到react，安装了react-i18next",
+  "description": {
+    "part1": "请编辑 <1>src/App.js</1>然后保存并重新加载来开始",
+    "part2": "通过上面的按钮来在英文、德文、中文之间进行切换"
+  }
+}
