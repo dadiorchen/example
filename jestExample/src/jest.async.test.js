@@ -1,9 +1,3 @@
-import {Model} from './Model.js'
-import {API,APIA} from './API'
-
-/* mock the module : API */
-/* NOTE , this line must be put here , if put below ,in test block ,will do not work */
-jest.mock('./API')
 
 /* To demonstrate async test */
 describe('TestAsync',() => {
@@ -65,45 +59,3 @@ describe('TestAsync',() => {
 	})
 })
 
-describe('TestMock',() => {
-	it('TestMock',() => {
-		/* check the mock obj call history */
-		function doSomething(callback){
-			callback(1)
-			return 1
-		}
-		const mock = jest.fn()
-		doSomething(mock)
-		doSomething(mock)
-		const a = new mock()
-		console.log('mock fn:',mock.mock)
-		expect(mock.mock.calls.length).toBe(3)
-
-		/* mock return */
-		{
-			const mock = jest.fn()
-			mock.mockReturnValue(true)
-			expect(mock()).toBe(true)
-		}
-	})
-
-	/* mock a deep module ,two case: 1. A static object. 2. A class */
-	it('TestMockModule',() => {
-		/* mock the static method */
-		APIA.request.mockReturnValue(true)
-		console.warn('the API:',API)
-		console.warn('the API:',new API())
-		/*mock the API class */
-		API.mockImplementation(() => {
-			return {
-				request	: () => true
-			}
-		})
-
-		
-		const model = new Model()
-		console.log('model:',model)
-		expect(model.get()).toBe(true)
-		expect(model.getA()).toBe(true)
-	})
-})

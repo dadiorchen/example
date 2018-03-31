@@ -1,4 +1,6 @@
 import {API,APIA} from './API.js'
+import {LocalData} from './LocalData'
+import fs from 'fs'
 
 export class Model {
 	constructor(props){
@@ -14,5 +16,17 @@ export class Model {
 
 	getA(){
 		return APIA.request()
+	}
+
+	getLogs(){
+		return LocalData.getLogs()
+	}
+
+	getLogByName ( name ) {
+		return LocalData.getLogByName(name)
+	}
+
+	getVimrc () {
+		return fs.readFileSync('/Users/deanchen/.vimrc').toString()
 	}
 }
