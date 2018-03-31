@@ -37,13 +37,18 @@ describe('TestMock',() => {
 	/* mock a deep module ,two case: 1. A static object. 2. A class */
 	it('TestMockModule',() => {
 		/* mock the static method */
+		console.error('the API:',API)
+		console.error('the APIA:',APIA)
+		/* the APIA 's request has been mock , but it do not return 'true', so mock it */
 		APIA.request.mockReturnValue(true)
 		console.warn('the API:',API)
 		console.warn('the API:',new API())
 		/*mock the API class */
+		/* To mock the class */
+		const request = jest.fn().mockReturnValue(true)
 		API.mockImplementation(() => {
 			return {
-				request	: () => true
+				request,
 			}
 		})
 
@@ -52,6 +57,8 @@ describe('TestMock',() => {
 		console.log('model:',model)
 		expect(model.get()).toBe(true)
 		expect(model.getA()).toBe(true)
+		/* To check the function has been called */
+		expect(request).toHaveBeenCalled()
 	})
 
 	it('TestManualMock', () => {

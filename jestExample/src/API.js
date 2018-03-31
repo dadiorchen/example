@@ -1,7 +1,7 @@
 
 export class API {
-	request = function(){
-		throw 'This is a fake function!'
+	request (){
+		throw 'This is a real function!'
 	}
 }
 
