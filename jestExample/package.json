@@ -13,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom ",
 	"testDebug" : "node --inspect-brk node_modules/.bin/jest --runInBand --watch --env=jsdom",
 	"td"	: "react-scripts --inspect-brk test --env=jsdom --runInBand",
     "eject": "react-scripts eject"

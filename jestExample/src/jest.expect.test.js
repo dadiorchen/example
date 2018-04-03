@@ -1,6 +1,5 @@
 /* To demo the usage of expect API */
 describe('TestUnitExpect',() => {
-
 	it('TestExpectExtend',() => {
 		expect.extend({
 			toBeOliver(received,argument){
@@ -27,18 +26,20 @@ describe('TestUnitExpect',() => {
 		expect(1).toEqual(expect.anything())
 		/* anything not toBe anything */
 		expect(1).not.toBe(expect.anything())
+
+
 	})
 
 	/* Use any can check the return value of something, is very useful !!! */
 	/* And the toBeInstanceOf is the same */
+	class Hashtag {
+		name = 'logger'
+	}
 	it('TestAnyAndInstanceOf',() => {
 		expect('xxx').toEqual(expect.any(String))
 		expect(undefined).not.toEqual(expect.any(String))
 		expect(new Date()).toEqual(expect.any(Date))
 		expect(new Date()).not.toEqual(expect.any(Number))
-		class Hashtag {
-			name = 'logger'
-		}
 		const hashtag = new Hashtag()
 		console.log('a object:',hashtag)
 		expect(hashtag).toEqual(expect.any(Hashtag))
