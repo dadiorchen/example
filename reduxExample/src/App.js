@@ -1,17 +1,26 @@
+//@flow
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+/* Using provider to pass the store down through all the app */
+import {Provider} from 'react-redux'
+import {CSetting} from './component/Setting.js'
 
-class App extends Component {
+const store = require('./model/state.js').getStore()
+
+class App extends Component<{},{}> {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">The Redux React Todo</h1>
-        </header>
-        <p className="App-intro">
-        </p>
-      </div>
+	<Provider store={store} >
+		<div className="App">
+			<header className="App-header">
+				<h1 className="App-title">The Redux React Todo</h1>
+			</header>
+			<p className="App-intro">
+			</p>
+			<CSetting />
+		</div>
+	</Provider>
     );
   }
 }

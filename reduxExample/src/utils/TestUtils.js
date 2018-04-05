@@ -7,7 +7,7 @@ import watch from 'redux-watch'
  *     await sleep(1000);
  *     }
  * */
-export function sleep(ms :number) {
+export function sleep(ms :number) : Promise<any>{
 	  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -92,7 +92,6 @@ export const storeReceiver = (store : any) => {
  *
  * */
 export const storeDispatch = (store : any ,dispatchCallback : Function) : Promise<any> => {
-	store.dispatch(dispatchCallback);
 	return new Promise( (resolve,reject) => {
 		let w = watch(store.getState,'');
 		let unsubscribe = store.subscribe( w( () => {
@@ -105,6 +104,8 @@ export const storeDispatch = (store : any ,dispatchCallback : Function) : Promis
 				}
 			},100);
 		}));
+		/* change from above lines to here, here is better, because maybe the dispatch is too fast , to the subscribe can not receive the message , because when it subscribe ,its too later , the message have been sent */
+		store.dispatch(dispatchCallback);
 	});
 }
 

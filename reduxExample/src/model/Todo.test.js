@@ -1,20 +1,11 @@
 //@flow
 /* To test the todo model */
-import {Todo,todoModel} from './Todo.js'
-import thunk from 'redux-thunk'
-import {createStore,applyMiddleware,compose,combineReducers} from 'redux'
+import Todo from './Todo.js'
+import todoModel from './todoModel.js'
 import {storeDispatch} from '../utils/TestUtils.js'
+import state from './state.js'
 
-const store : {
-	dispatch	: (any) => void,
-	getState : () => {
-		byIds	: {[string]:Todo},
-		ids	: Array<string>,
-	}
-} = compose(applyMiddleware(thunk))(createStore)(combineReducers({
-	byIds	: todoModel.reducers.byIds,
-	ids		: todoModel.reducers.ids,
-}))
+const store = require('./state').getStore()
 
 describe('TestTodoModel',() => {
 	it('TestTodo',() => {
@@ -26,9 +17,9 @@ describe('TestTodoModel',() => {
 		const {id} = todo
 		const r = store.dispatch(todoModel.actions.add(todo))
 		console.log('the state:',store.getState())
-		console.log('xxx:',store.getState().byIds[id])
-		expect(store.getState().byIds[id]).toBeInstanceOf(Todo)
-		expect(store.getState().ids).toHaveLength(1)
+		console.log('xxx:',store.getState().todos.byIds[id])
+		expect(store.getState().todos.byIds[id]).toBeInstanceOf(Todo)
+		expect(store.getState().todos.ids).toHaveLength(1)
 		
 	})
 })

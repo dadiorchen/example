@@ -1,6 +1,6 @@
 //@flow
 /* The model for search */
-import {todoModel} from './Todo.js'
+import todoModel from './TodoModel.js'
 
 class SearchModel {
 	reducers = {
