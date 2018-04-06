@@ -5,6 +5,7 @@ import './App.css';
 /* Using provider to pass the store down through all the app */
 import {Provider} from 'react-redux'
 import {CSetting} from './component/Setting.js'
+import {CTodos} from './component/Todos.js'
 
 const store = require('./model/state.js').getStore()
 
@@ -18,6 +19,7 @@ class App extends Component<{},{}> {
 			</header>
 			<p className="App-intro">
 			</p>
+			<CTodos />
 			<CSetting />
 		</div>
 	</Provider>

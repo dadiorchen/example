@@ -9,6 +9,7 @@ type Props = {
 	displayMode	: TypeDisplayMode,
 	autoSearch	: boolean,
 	autoSearchUpdate	: (autoSearch : boolean) => void,
+	displayModeUpdate	: (displayMode : TypeDisplayMode ) => void,
 }
 export class Setting extends React.Component<Props,{
 	//state
@@ -29,7 +30,12 @@ export class Setting extends React.Component<Props,{
 		console.log('auto search :',this.props.autoSearch)
 		return(
 			<div>MyComponent...
-				<p>{this.props.displayMode}</p>
+				<p
+					onClick={() => {
+						//$FlowFixMe
+						this.props.displayModeUpdate((this.props.displayMode + 1) % 2)
+					}}
+				>{this.props.displayMode}</p>
 				<p
 					onClick={() => {
 						console.log('click auto search',this.props.autoSearch)
@@ -51,6 +57,7 @@ const CSetting = connect(
 	(dispatch) => {
 		return {
 			autoSearchUpdate	: (autoSearch : boolean) => dispatch(settingModel.actions.autoSearchUpdate(autoSearch)),			
+			displayModeUpdate	: (displayMode : TypeDisplayMode) => dispatch(settingModel.actions.displayModeUpdate(displayMode)),
 		}
 	},
 )(Setting)
