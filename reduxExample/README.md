@@ -4,6 +4,7 @@ This project show the project:
 * react as component view, 
 * and use enzyme to test the component
 	NOTE, the enzyme just test the component using shallow render , so , just test the component itself , not its descendant
+	Using enzyme, to test the component which includes other connected component , its easy! Just test it , enzyme shallow will handle the it fine, see the ./src/component/Todos.test.js 
 * Sandbox: then, I will create a sandbox , by which, I can run a component in real browser , to test and try to demo it, to achieve this objective, I must decouple the component and its children/descendant component from the Redux, that is , the connected component . So , I must code a setting to dis-connect the component from its parent component
 * The example: to code a todo list , with store like this:
 	{

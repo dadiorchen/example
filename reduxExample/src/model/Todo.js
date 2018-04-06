@@ -1,6 +1,6 @@
 //@flow
 /* The model of Todo */
-export default class Todo {
+export class Todo {
 	id		: string
 	content	: string
 	createdTime	: number

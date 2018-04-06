@@ -1,6 +1,6 @@
 //@flow
 /* To test the todo model */
-import Todo from './Todo.js'
+import {Todo} from './Todo.js'
 import todoModel from './todoModel.js'
 import {storeDispatch} from '../utils/TestUtils.js'
 import state from './state.js'
@@ -23,3 +23,4 @@ describe('TestTodoModel',() => {
 		
 	})
 })
+

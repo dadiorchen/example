@@ -1,7 +1,7 @@
 //@flow
 /* To test the search model */
 import {searchModel} from './Search.js'
-import Todo from './Todo.js'
+import {Todo} from './Todo.js'
 import todoModel from './todoModel.js'
 import {storeDispatch,sleep} from '../utils/TestUtils.js'
 import state from './state.js'

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestMyComponent TestMyComponentWithShallow 1`] = `
+<div
+  className="my-component"
+  id="my"
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <p
+    className="good"
+  >
+     This is my component
+  </p>
+  <span>
+    <a
+      href="www.baidu.com"
+    >
+      This is a link
+    </a>
+  </span>
+  <ChildComponent
+    status={1}
+  />
+  <button
+    className="button"
+    onClick={[Function]}
+  >
+    show detail
+  </button>
+</div>
+`;
