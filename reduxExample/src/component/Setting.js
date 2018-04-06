@@ -27,7 +27,6 @@ export class Setting extends React.Component<Props,{
 	
 	/********************** component method *******/
 	render(){
-		console.log('auto search :',this.props.autoSearch)
 		return(
 			<div>MyComponent...
 				<p
@@ -35,6 +34,7 @@ export class Setting extends React.Component<Props,{
 						//$FlowFixMe
 						this.props.displayModeUpdate((this.props.displayMode + 1) % 2)
 					}}
+					className='display-mode'
 				>{this.props.displayMode}</p>
 				<p
 					onClick={() => {
