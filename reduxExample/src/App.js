@@ -14,9 +14,7 @@ class App extends Component<{},{}> {
     return (
 	<Provider store={store} >
 		<div className="App">
-			<header className="App-header">
-				<h1 className="App-title">The Redux React Todo</h1>
-			</header>
+			<h1 className="App-title">The Redux React Todo</h1>
 			<p className="App-intro">
 			</p>
 			<CTodos />
