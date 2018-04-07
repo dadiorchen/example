@@ -72,3 +72,14 @@ Sandbox Usage:
 How to copy custom-class object in reducer:
 	const newTodo = Object.create(oldTodo)
 	Object.assign(newTodo,oldTodo)
+
+
+A BETTER way to write sandbox: 
+	Using storybook! 
+	* cd /path/to/project
+	* >getstorybook
+	* >npm run storybook
+	* DONE
+	* write component test !
+
+
