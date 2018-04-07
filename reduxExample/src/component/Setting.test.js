@@ -1,8 +1,5 @@
 /* To adapter the enzyme for react 16 */
 import React from 'react'
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-Enzyme.configure({ adapter: new Adapter() });
 import {shallow} from 'enzyme'
 
 import {Setting} from './Setting.js'

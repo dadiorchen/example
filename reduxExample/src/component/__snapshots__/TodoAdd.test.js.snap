@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestTodoAdd TestTodoAdd 1`] = `
+<div>
+  <input
+    onChange={[Function]}
+    placeholder="Please input todo content"
+    type="text"
+    value=""
+  />
+  <button
+    onClick={[Function]}
+  >
+    Add
+  </button>
+</div>
+`;

@@ -24,11 +24,13 @@ export class Todos extends React.Component<Props,{
 	/********************** react method ***********/
 	/********************** component method *******/
 	render(){
+		console.warn('render: todos')
 		return(
 			<div
 				style={{
 					display	: 'flex',
 					flexDirection	: this.props.displayMode === 0 ? 'column' : 'row',
+					margin	: 5,
 				}}
 			>
 				{this.props.ids && this.props.ids.map(id => {

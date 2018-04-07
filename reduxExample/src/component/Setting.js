@@ -27,21 +27,34 @@ export class Setting extends React.Component<Props,{
 	
 	/********************** component method *******/
 	render(){
+		console.warn('++++render:setting')
 		return(
-			<div>MyComponent...
+			<div
+				style={{
+					background	: 'lightgreen',
+					padding	: 5,
+					fontSize	: 20,
+				}}
+			>
 				<p
+					style={{
+						cursor	: 'pointer',
+					}}
 					onClick={() => {
 						//$FlowFixMe
 						this.props.displayModeUpdate((this.props.displayMode + 1) % 2)
 					}}
 					className='display-mode'
-				>{this.props.displayMode}</p>
+				>DISPLAY MODE: {this.props.displayMode}</p>
 				<p
+					style={{
+						cursor	: 'pointer',
+					}}
 					onClick={() => {
 						console.log('click auto search',this.props.autoSearch)
 						this.props.autoSearchUpdate(!this.props.autoSearch)
 					}}
-				>{this.props.autoSearch? 'true':'false'}</p>
+				>AUTO SEARCH: {this.props.autoSearch? 'true':'false'}</p>
 			</div>
 		)
 	}
@@ -56,8 +69,8 @@ const CSetting = connect(
 	},
 	(dispatch) => {
 		return {
-			autoSearchUpdate	: (autoSearch : boolean) => dispatch(settingModel.actions.autoSearchUpdate(autoSearch)),			
-			displayModeUpdate	: (displayMode : TypeDisplayMode) => dispatch(settingModel.actions.displayModeUpdate(displayMode)),
+			autoSearchUpdate	: (autoSearch : boolean) => dispatch(settingModel.actions.settingAutoSearchUpdate(autoSearch)),			
+			displayModeUpdate	: (displayMode : TypeDisplayMode) => dispatch(settingModel.actions.settingDisplayModeUpdate(displayMode)),
 		}
 	},
 )(Setting)

@@ -4,11 +4,14 @@ import React from "react";
 import {connect} from 'react-redux'
 import {Todo as TodoEntity} from '../model/Todo.js'
 import {type TypeState} from '../model/TypeState.js'
+import {CONFIG} from '../config.js'
+import todoModel from '../model/TodoModel.js'
 
 
 type Props = {
 	id	: string,
 	todo	: TodoEntity,
+	todoToggleStatus	: (id : string) => void,
 }
 export class Todo extends React.Component<Props,{
 	//state
@@ -22,14 +25,33 @@ export class Todo extends React.Component<Props,{
 	/********************** properties ************/
 	/********************** react method ***********/
 	/********************** component method *******/
+	handleChange = () => {
+		this.props.todoToggleStatus(this.props.id)
+	}
+
 	render(){
+		console.warn('++++++++render:todo')
+		const {todo} = this.props
 		return(
-			<div>This is a todo:{this.props.todo.content}</div>
+			<div
+				style={{
+					border	: '1px solid gray',
+					borderRadius	: 3,
+					margin	: 5,
+					padding	: 5,
+					textAlign	: 'left',
+				}}
+			>
+			<input 
+				onChange={this.handleChange}
+				type='checkbox' checked={todo.status === 0 ? '':'checked'} />
+			{todo.content}</div>
 		)
 	}
 }
 
-const CTodo = connect(
+const CTodo = CONFIG.SANDBOX_RENDER('Todo') ||
+	connect(
 	(state : TypeState,props) => {
 		const {id} = props
 		const todo = state.todos.byIds[id]	
@@ -37,7 +59,8 @@ const CTodo = connect(
 			todo,
 		}
 	},
-	(dispatch) => {
+	{
+		todoToggleStatus	: todoModel.actions.todoToggleStatus,
 	},
 )(Todo)
 export {CTodo}

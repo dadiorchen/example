@@ -31,13 +31,13 @@ class SettingModel {
 	}
 	
 	actions = {
-		displayModeUpdate : (displayMode : TypeDisplayMode) => {
+		settingDisplayModeUpdate : (displayMode : TypeDisplayMode) => {
 			return {
 				type	: 'SETTING_DISPLAY_MODE_UPDATE',
 				displayMode,
 			}
 		},
-		autoSearchUpdate : (autoSearch : boolean) => {
+		settingAutoSearchUpdate : (autoSearch : boolean) => {
 			return {
 				type	: 'SETTING_AUTO_SEARCH_UPDATE',
 				autoSearch,

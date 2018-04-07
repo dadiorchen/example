@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestSearch TestSearch 1`] = `
+<div
+  style={
+    Object {
+      "background": "gray",
+      "padding": 5,
+    }
+  }
+>
+  <div>
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <button
+      onClick={[Function]}
+    >
+      Search
+    </button>
+  </div>
+  <div
+    className="search-status"
+    onClick={[Function]}
+    style={
+      Object {
+        "fontSize": 19,
+        "margin": 3,
+      }
+    }
+  >
+    The status:
+    <span
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
+    >
+      <strong>
+        -1
+      </strong>
+    </span>
+  </div>
+</div>
+`;

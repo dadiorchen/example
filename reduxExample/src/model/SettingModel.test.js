@@ -5,10 +5,10 @@ const store = require('./state.js').getStore()
 
 describe('TestSettingModel',() => {
 	it('TEstSettingUpdate',() => {
-		store.dispatch(settingModel.actions.displayModeUpdate(1))
+		store.dispatch(settingModel.actions.settingDisplayModeUpdate(1))
 		expect(store.getState().setting.displayMode).toBe(1)
 		expect(store.getState().setting.autoSearch ).toBe(false)
-		store.dispatch(settingModel.actions.autoSearchUpdate(true))
+		store.dispatch(settingModel.actions.settingAutoSearchUpdate(true))
 		expect(store.getState().setting.autoSearch ).toBe(true)
 	})
 })

@@ -6,12 +6,12 @@ class SearchModel {
 	reducers = {
 		search	: (state : {keyword : string,status : number} = {keyword : '',status : -1},action:any) => {
 			switch(action.type){
-				case 'SET_STATUS' : {
+				case 'SEARCH_SET_STATUS' : {
 					const newState = {...state}
 					newState.status = action.status
 					return newState
 				}
-				case 'SET_KEYWORD' : {
+				case 'SEARCH_SET_KEYWORD' : {
 					const newState = {...state}
 					newState.keyword = action.keyword
 					return newState
@@ -23,22 +23,26 @@ class SearchModel {
 	}
 
 	actions = {
-		setStatus	: (status : number) => {
+		searchSetStatus	: (status : number) => {
 			return {
-				type	: 'SET_STATUS',
+				type	: 'SEARCH_SET_STATUS',
 				status,
 			}
 		},
-		setKeyword	: (keyword : string) => {
+		searchSetKeyword	: (keyword : string) => {
 			return {
-				type	: 'SET_KEYWORD',
+				type	: 'SEARCH_SET_KEYWORD',
 				keyword,
 			}
 		},
 		changeStatus	: (status : number) => (dispatch : any , getState : any) => {
-			dispatch(this.actions.setStatus(status))
+			dispatch(this.actions.searchSetStatus(status))
 			//inform the todo model to change
-			dispatch(todoModel.actions.filterByStatus(status))
+			dispatch(todoModel.actions.todoFilterByStatus(status))
+		},
+		changeKeyword	: (keyword : string ) => (dispatch : any , getState : any) => {
+			dispatch(this.actions.searchSetKeyword(keyword))
+			dispatch(todoModel.actions.todoFilterByKeyword(keyword))
 		},
 	}
 }

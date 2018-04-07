@@ -16,7 +16,8 @@ describe('TestSearchModel',() => {
 
 	it('TestSearchStatus',async () => {
 		const todo = new Todo()
-		store.dispatch(todoModel.actions.add(todo))
+		todo.content = 'for test'
+		store.dispatch(todoModel.actions.todoAdd(todo))
 		console.log('state:',store.getState())
 		await storeDispatch(store,searchModel.actions.changeStatus(0))
 		console.log('state:',store.getState())
@@ -28,5 +29,13 @@ describe('TestSearchModel',() => {
 		await store.dispatch(searchModel.actions.changeStatus(0))
 		expect(store.getState().todos.ids).toHaveLength(1)
 		console.log('state after chang status:',store.getState())
+		
+		//Filter by keyword
+		await storeDispatch(store,searchModel.actions.changeKeyword('test'))
+		expect(store.getState().todos.ids).toHaveLength(1)
+		await storeDispatch(store,searchModel.actions.changeKeyword('xxx'))
+		expect(store.getState().todos.ids).toHaveLength(0)
+		await storeDispatch(store,searchModel.actions.changeKeyword(''))
+		expect(store.getState().todos.ids).toHaveLength(1)
 	})
 })
