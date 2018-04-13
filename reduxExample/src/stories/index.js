@@ -21,7 +21,8 @@ storiesOf('Button', module)
 
 const {Setting} = require('../component/Setting.js')
 const {Search} = require('../component/Search.js')
-storiesOf('Todo',module)
+const {Todos} = require('../component/Todos.js')
+let story = storiesOf('Todo',module)
 	.add('Setting',() => 
 			<Setting
 				autoSearch={false}
@@ -36,4 +37,9 @@ storiesOf('Todo',module)
 				changeKeyword={() => {console.log('change keyword')}}
 				changeStatus={() => {console.log('change status')}}
 
+			/>)
+	.add('Todos',() => 
+			<Todos
+				displayMode={1}
+				ids={['a','b','c']}
 			/>)

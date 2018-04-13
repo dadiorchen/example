@@ -77,9 +77,10 @@ How to copy custom-class object in reducer:
 A BETTER way to write sandbox: 
 	Using storybook! 
 	* cd /path/to/project
-	* >getstorybook
-	* >npm run storybook
+	* > getstorybook
+	* > npm run storybook
 	* DONE
 	* write component test !
+	NOTE, storybook can not fix the problem about render connected-component , so , the above approach (config.js) is still useful !
 
-
+ 
