@@ -1,0 +1,7 @@
+<html>
+	<title>${title}</title>
+	<body>
+		<h1>The page</h1>
+		<p>${content}</p>
+	</body>
+</html>

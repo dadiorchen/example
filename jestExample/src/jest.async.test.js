@@ -57,5 +57,17 @@ describe('TestAsync',() => {
 		})
 		expect(result).toBe('OK')
 	})
+
+	it('TestAwaitDone',async done => {
+		const result = await new Promise((resolve,reject) => {
+			setTimeout(() => {
+				resolve('OK')
+			})
+		})
+		expect(result).toBe('OK')
+		/* NOTE , the async can not use with DONE together , below expect failure will result in the test progress broken (the Jest process will quit) */
+		//expect(result).toBe('a')
+		done()
+	})
 })
 

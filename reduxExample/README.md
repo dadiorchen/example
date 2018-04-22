@@ -59,7 +59,23 @@ How to code with redux:
 				* All the action in this model, NOTE, the action name should include the model,for example: Model: TodoModel  Action: add a todo = todoAdd, and the reducer anem should be : TODO_ADD
 					This is because 1. with the model name as domain name , the reducer will not to be duplicated, and 2. this is easy to bind it to component without confuse
 
-	* 
+Connect the component:
+	Using 'connect' function ,  its easy to mount component to redux, here is a example:
+		const CSearch = require('../config.js').CONFIG.SANDBOX_RENDER() || 
+			connect(
+				(state : TypeState ) => {
+					return {
+						status	: state.search.status,
+						autoSearch	: state.setting.autoSearch,
+					}
+				},
+				//NOTE This is shortcut way to dispatch action!
+				{
+					changeKeyword	: searchModel.actions.changeKeyword,
+					changeStatus	: searchModel.actions.changeStatus,
+				}
+			)(Search)
+	AND , I think beyond redux, the connect is a good way to decouple the component and model, we can use dispatch bind to mount module function to the component
 
 Sandbox Usage:
 	* The config : ./src/config.js 
@@ -83,4 +99,17 @@ A BETTER way to write sandbox:
 	* write component test !
 	NOTE, storybook can not fix the problem about render connected-component , so , the above approach (config.js) is still useful !
 
+	PROBLEM
+		Can not run storybook,get error when run : Module build failed: SyntaxError: Unexpected token
+		Rresolve: babel miss the react syntax , add below line to .babelrc
+		{
+			"presets": ["es2015", "stage-0","react"],
+			"plugins": [
+				"transform-class-properties",
+			]
+		}
+
+		The CPU 100%
+		Resolve: install fsevent : npm install fsevents --save-dev
  
+
