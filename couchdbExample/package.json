@@ -1,0 +1,19 @@
+{
+  "name": "couchdbexample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "node-fetch": "^2.1.2",
+    "pouchdb": "^6.4.3"
+  }
+}

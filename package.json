@@ -11,5 +11,8 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "jest": "^22.4.2"
+  },
+  "dependencies": {
+    "loglevel": "^1.6.1"
   }
 }
