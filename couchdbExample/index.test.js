@@ -1,5 +1,6 @@
 /* Test CouchDB */
-const fetch = require('node-fetch')
+//const fetch = require('node-fetch')
+import 'whatwg-fetch'
 const {CouchDBProcess} = require('./CouchDBProcess.js')
 const URL = 'http://127.0.0.1:5984'
 const user	= 'admin'
@@ -39,9 +40,16 @@ afterAll(() => {
 
 
 describe('TestCouchDB',() => {
-	it('TestCouchDBRootInfo',async () => {
+	it.only('TestCouchDBRootInfo',async () => {
 		/* Get the info of the CouchDB */
-		const res = await fetch(`${URL}`)
+		//BACK  , not work! jsdom + watch-fetch can not fix the problem of cors 
+		const res = await fetch(`${URL}`,{
+			mode: 'cors',
+			credentials: 'include',
+			headers	: new Headers({
+				//'access-control-allow-origin': '*' 
+			}),
+		})
 		expect(res.status).toBe(200)
 		const json = await res.json()
 		console.log('Response json from CouchDB:',json)
@@ -125,6 +133,36 @@ describe('TestCouchDB',() => {
 		})
 		console.log('The res status of stats:',res.status)
 		json	= await res.json()
+		console.log('The res json of stats:',json)
+	})
+
+	it('TestCookie',async () => {
+		let res		= await fetch(`${URL}/_session`,{
+			method	: 'POST',
+			credentials	: 'same-origin',
+			body	: JSON.stringify({
+				name	: 'admin',
+				password	: 'admin',
+			}),
+			headers	: {
+				'Content-Type'	: 'application/json',
+			},
+		})
+		console.log('The key:',[...res.headers.keys()])
+		const cookie	= res.headers.get('Set-Cookie')
+		console.log('The Set-Cookie:',cookie)
+		expect(cookie).toBeDefined()
+		
+		res	= await fetch(`${URL}/_stats/httpd_request_methods`,{
+			method	: 'GET',
+			credentials	: 'same-origin',
+			headers	: {
+				/* The way to authorization on CouchDB */
+				//Authorization,
+			},
+		})
+		console.log('The res status of stats:',res.status)
+		let json	= await res.json()
 		console.log('The res json of stats:',json)
 	})
 	

@@ -6,4 +6,8 @@ This project demo : react + express , run in a single project
 	* The react component request/fetch data from express
 	* Use concurrently to run server and react at the same time
 
-
+About CORS problem: 
+	* If the jest env is : jsdom , then , if in the test : fetch('http://127.0.0.1:3008/index'),
+		this will throw a CORS error, if remove the jsdom: in package.json: test= jest --env=jsdom 
+		this will not throw CORS error
+	

@@ -5,21 +5,22 @@ const fs = require('fs')
 let process
 
 export const CouchDBProcess = {
-	restart	: () => { 
-		const child_process = require('child_process')
-		//	const result = require('child_process').execSync('./couchdbRestart.sh',{
+	restart		: () => { 
+		const child_process		= require('child_process')
+		//	const result		= require('child_process').execSync('./couchdbRestart.sh',{
 		//		timeout	: 5000})
 		//	console.log('The result of shell script:',result)
 		console.log('Begin to restart...')
 		console.log('Check the CouchDB process...')
-		let result = child_process.execSync('ps -ef |grep beam.smp | grep -v grep | wc -l') 
+		let result		= child_process.execSync('ps -ef |grep beam.smp | grep -v grep | wc -l') 
 		console.log('The count of CouchDB process:',result.toString())
-		const count = +result.toString()
+		const count		= +result.toString()
 		console.log('count:',count)
 		if(count > 0){
 			console.log('To kill the CouchDB process...')
-			result = child_process.execSync("ps -ef |grep beam.smp | grep -v grep |awk '{print $2}' | xargs kill -9 | sleep 1")
-			console.log('The result of kill:',result.toString())
+			result		= child_process.execSync("ps -ef |grep beam.smp | grep -v grep |awk '{print $2}' | xargs kill -9 | sleep 1")
+			console.log('The result of kill:',
+				result.toString())
 		}
 		console.log('start CouchDB...')
 		/* OK, This is great: the node will create a child process to run the coudhDB ,and , if the node process quit, then the couchDB process will quit too */
@@ -32,14 +33,13 @@ export const CouchDBProcess = {
 		//	})
 
 		/* Create CouchDB database process, direct the output to log file */
-		process = child_process.exec('/Users/deanchen/soft/couchdb/bin/couchdb',
+		process		= child_process.exec('/Users/deanchen/soft/couchdb/bin/couchdb',
 			{
 				stdio	: [
 					0,
 					fs.openSync('/tmp/couchdb.stdout.log','w'),
 					fs.openSync('/tmp/couchdb.stderr.log','w')
-				]
-			})
+				]})
 	},
 	stop	: () => {
 		process && process.kill()
