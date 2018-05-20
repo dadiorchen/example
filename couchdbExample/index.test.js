@@ -1,5 +1,10 @@
 /* Test CouchDB */
+
+/* Using node-fetch , this will not cause the CouchDB throw CORS problem ,
+ * maybe its because the client is not browser ( not like whatwg-fetch)
+ * */
 //const fetch = require('node-fetch')
+/* Using browser-like fetch */
 import 'whatwg-fetch'
 const {CouchDBProcess} = require('./CouchDBProcess.js')
 const URL = 'http://127.0.0.1:5984'
@@ -23,11 +28,14 @@ beforeAll(() => {
 })
 
 
-afterAll(() => {
+afterAll(async () => {
+	//wait a while , wait the console to print CouchDB log...
+	console.log('Wait to close CouchDB')
+	await new Promise((r,j) => setTimeout(() =>r(),1000))
 	console.log('To close CouchDB...')
 	CouchDBProcess.stop()
 	//wait .5 sec
-	return new Promise((resolve,reject) =>{
+	await new Promise((resolve,reject) =>{
 		setTimeout(() => {
 			console.log('CouchDB closed!')
 			resolve()
@@ -40,20 +48,42 @@ afterAll(() => {
 
 
 describe('TestCouchDB',() => {
-	it.only('TestCouchDBRootInfo',async () => {
+	it('TestCouchDBRootInfo',async () => {
 		/* Get the info of the CouchDB */
-		//BACK  , not work! jsdom + watch-fetch can not fix the problem of cors 
-		const res = await fetch(`${URL}`,{
-			mode: 'cors',
-			credentials: 'include',
-			headers	: new Headers({
-				//'access-control-allow-origin': '*' 
-			}),
-		})
+		/* ENV: 
+		 * 	* test package.json: jest --env=jsdom
+		 * 	* using : import 'whatwg-fetch'
+		 *
+		//Problem: CouchDB response CORS error, not work! jsdom + watch-fetch can not fix the problem of cors 
+		/* Now , its works! How to ?
+		 *  1. Go to the config dir of CouchDB: /path/to/install/CouchDB/ + /etc/default.ini
+		 *  2. Change : enable_cors = true
+		 *  3. Change : [cors]
+		 *  			credentials	= true
+		 *  			origin	= * 
+		 *  4. Done!
+		 * */
+		const res = await fetch(`${URL}`,)
 		expect(res.status).toBe(200)
 		const json = await res.json()
 		console.log('Response json from CouchDB:',json)
 		expect(json.couchdb).toBe('Welcome')
+	})
+
+	it('TestConfig',async () => {
+		/* NOTE, Its hard !!! Blame the doc of CouchDB ,
+		 * I don't known how to write the URL to get config ,
+		 * till google it 
+		 * The answer is : couchdb@127.0.0.1 !!!*/
+		const res	= await fetch(`${URL}/_node/couchdb@127.0.0.1/_config`,{
+			headers	: {
+				/* The way to authorization on CouchDB */
+				Authorization,
+			},
+		})
+		let json	= await res.json()
+		console.log('Res of config:',json)
+		expect(res.status).toBe(200)
 	})
 
 	it('TestCouchDBAll',async () => {
@@ -136,10 +166,13 @@ describe('TestCouchDB',() => {
 		console.log('The res json of stats:',json)
 	})
 
+	/* Demo the usage of cookie authentication */
 	it('TestCookie',async () => {
 		let res		= await fetch(`${URL}/_session`,{
 			method	: 'POST',
-			credentials	: 'same-origin',
+			/* Must set this , to ensure the cookie was set when response come , 
+			 * or, the next request of fetch will have not authentication */
+			credentials	: 'include',
 			body	: JSON.stringify({
 				name	: 'admin',
 				password	: 'admin',
@@ -149,25 +182,114 @@ describe('TestCouchDB',() => {
 			},
 		})
 		console.log('The key:',[...res.headers.keys()])
-		const cookie	= res.headers.get('Set-Cookie')
-		console.log('The Set-Cookie:',cookie)
-		expect(cookie).toBeDefined()
-		
-		res	= await fetch(`${URL}/_stats/httpd_request_methods`,{
+
+		let json	= await res.json()
+		console.log('The res json of stats:',json)
+		expect(res.status).toBe(200)
+
+		res		= await fetch(`${URL}/_session`,{
 			method	: 'GET',
-			credentials	: 'same-origin',
+			credentials	: 'include',
+		})
+		json	= await res.json()
+		console.log('The res json of _session get:',json)
+
+
+		/* Now , the authentication of cookie will PASS */
+		res	= await fetch(`${URL}/_node/couchdb@127.0.0.1/_config`,{
+			credentials	: 'include',
 			headers	: {
 				/* The way to authorization on CouchDB */
 				//Authorization,
 			},
 		})
-		console.log('The res status of stats:',res.status)
-		let json	= await res.json()
-		console.log('The res json of stats:',json)
+		json	= await res.json()
+		console.log('Res of config:',json)
+		expect(res.status).toBe(200)
 	})
 	
+	/* To demo user create/login/check/change password */
+	it.only('TestUser',async () => {
+		/* To demo user create */
+		let res		= await fetch(`${URL}/_users/org.couchdb.user:oliver`,{
+			method	: 'PUT',
+			body	: JSON.stringify({
+				name	: 'oliver',
+				password	: 'goodgood',
+				roles	: [],
+				type	: 'user',
+			}),
+			headers	: new Headers({
+				'Content-Type'	: 'application/json',
+			}),
+		})
+		let json	= await res.json()
+		console.log('Res of user put:',json)
 
-	/* Great! The PouchDB can operate CouchDB directly , so , I can just use PouchDB API to operate BOTH local PouchDB and remote CoudhDB */
+		/* TO login */
+//		res		= await fetch(`${URL}/_session`,{
+//			method	: 'POST',
+//			credentials	: 'include',
+//			body	: JSON.stringify({
+//				name	: 'oliver',
+//				password	: 'goodgood',
+//			}),
+//			headers	: {
+//				'Content-Type'	: 'application/json',
+//			},
+//		})
+//		json	= await res.json()
+//		console.log('Res of user login:',json)
+		res		= await fetch(`${URL}/_session`,{
+			method	: 'POST',
+			credentials	: 'include',
+			body	: JSON.stringify({
+				name	: 'admin',
+				password	: 'admin',
+			}),
+			headers	: {
+				'Content-Type'	: 'application/json',
+			}
+		})
+		json	= await res.json()
+		console.log('Res of login:',json)
+
+		/* To get user info */
+		res		= await fetch(`${URL}/_users/org.couchdb.user:oliver`,{
+			/* Note,need authentication */
+			credentials	: 'include',
+		})
+		json	= await res.json()
+		let rev	= json._rev
+		console.log('Rev:',rev)
+		/* TODO Why can not found the user?*/
+		console.log('Res of user :',res.status)
+		console.log('Res of user info:',json)
+
+		/* TO change the password */
+		res		= await fetch(`${URL}/_users/org.couchdb.user:oliver`,{
+			method	: 'PUT',
+			credentials	: 'include',
+			body	: JSON.stringify({
+				name	: 'oliver',
+				roles	: [],
+				type	: 'user',
+				password	: 'goodgood',
+			}),
+			headers	: new Headers({
+				'If-Match'	: rev,
+			}),
+		})
+		json	= await res.json()
+		console.log('Res of change password:',res.status)
+		console.log('Res of change password:',json)
+
+
+
+
+	})
+	/* Great! The PouchDB can operate CouchDB directly , 
+	 * so , I can just use PouchDB API to operate BOTH local PouchDB and remote CoudhDB */
 	it('TestPouchDBAPI',async () => {
 		const dbName	= 'test_pouchdb'
 		const PouchDB	= require('pouchdb')

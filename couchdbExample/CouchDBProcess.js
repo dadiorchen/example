@@ -33,15 +33,31 @@ export const CouchDBProcess = {
 		//	})
 
 		/* Create CouchDB database process, direct the output to log file */
-		process		= child_process.exec('/Users/deanchen/soft/couchdb/bin/couchdb',
+		process		= child_process.spawn('/Users/deanchen/soft/couchdb/bin/couchdb',[],
 			{
+				//stdio	: 'pipe',//0,require('process').stdout,require('process').stderr]
 				stdio	: [
 					0,
-					fs.openSync('/tmp/couchdb.stdout.log','w'),
-					fs.openSync('/tmp/couchdb.stderr.log','w')
-				]})
+					'pipe',
+					'pipe',
+					/* Can not use file to output log ! Don't known why , 
+					 * just created the file , but with nothing in it */
+//					fs.openSync('/tmp/couchdb.stdout.log','w'),
+//					fs.openSync('/tmp/couchdb.stderr.log','w')
+				]
+			})
+
+		/* Change to using onData to print the log of couchDB in the current stdout */
+		process.stdout.on('data',data => {
+			console.log('COUCHDB LOG:',data.toString())
+		})
+
+		process.stderr.on('data',data => {
+			console.warn('COUCHDB ERR',data.toString())
+		})
 	},
 	stop	: () => {
+		console.log('Stop CouchDB...')
 		process && process.kill()
 	},
 }

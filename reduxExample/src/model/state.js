@@ -26,4 +26,5 @@ export function getStore() :{
 		getState : () => TypeState,
 }{
 	return compose(applyMiddleware(thunk))(createStore)(state)
+	//return createStore(state,applyMiddleware(thunkMiddleware))
 }

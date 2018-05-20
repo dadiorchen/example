@@ -70,7 +70,7 @@ describe('TestChildProcess',() => {
 		},1000*2)
 	},1000*10)
 
-	it('TestStdoutToFile',done => {
+	it.only('TestStdoutToFile',done => {
 		const fs = require('fs')
 		const ping = require('child_process').spawn('ping',['127.0.0.1'],{
 			stdio	: [

@@ -13,6 +13,7 @@
     "jest": "^22.4.2"
   },
   "dependencies": {
+    "bluebird": "^3.5.1",
     "loglevel": "^1.6.1"
   }
 }
